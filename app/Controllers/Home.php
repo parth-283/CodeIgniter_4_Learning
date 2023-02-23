@@ -34,7 +34,7 @@ class Home extends BaseController
 
                 if ($this->verifyMyPassword($this->request->getVar('password'), $admin['password'])) {
                     $this->setUserSession($admin);
-                    return  redirect()->to('/dashboard');
+                    return redirect()->to('/dashboard');
                 } else {
                     $data['Flash_message'] = TRUE;
                 }
@@ -74,10 +74,11 @@ class Home extends BaseController
 
                 if ($model->save($newData)) {
                     $data['Flash_message'] = TRUE;
-                    return  redirect()->to('/');
+                    return redirect()->to('/');
                 }
             }
-        };
+        }
+        ;
 
 
 
@@ -107,7 +108,7 @@ class Home extends BaseController
 
             if ($model->update($id, $newData)) {
                 $data['Flash_message'] = TRUE;
-                return  redirect()->to('/dashboard');
+                return redirect()->to('/dashboard');
             }
         }
         $data['userData'] = $model->where('id', $id)->first();
@@ -118,7 +119,7 @@ class Home extends BaseController
         $model = new AdminModel();
 
         if ($model->where('id', $id)->delete()) {
-            return  redirect()->to('/dashboard');
+            return redirect()->to('/dashboard');
         }
     }
 
@@ -145,6 +146,6 @@ class Home extends BaseController
     public function logout()
     {
         session()->destroy();
-        return  redirect()->to('/');
+        return redirect()->to('/');
     }
 }
