@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\AdminModel;
+use CodeIgniter\Files\File;
 
 class Home extends BaseController
 {
@@ -79,9 +80,6 @@ class Home extends BaseController
             }
         }
         ;
-
-
-
         return view('signup', $data);
     }
     public function dashboard()
@@ -123,6 +121,53 @@ class Home extends BaseController
         }
     }
 
+    public function upload($id)
+    {
+
+        $data = [];
+        $model = new AdminModel();
+
+        if ($this->request->getMethod() == 'post') {
+
+            $rules = [
+                'uploadImage' => [
+                    'label' => 'image File',
+                    'rules' => 'uploaded[image]'
+                    . '|is_image[image]'
+                    . '|mime_in[image,image/jpeg,image/jpeg,image/png]'
+                    . '|max_size[image,1024]'
+                ]
+            ];
+
+            if (!$this->validate($rules)) {
+                $data['validation'] = $this->validator;
+            } else {
+                $img = $this->request->getFile('image');
+
+                if (!$img->hasMoved()) {
+                    $filepath = WRITEPATH . 'uploads' . $img->store();
+                    print_r($filepath);
+                    $uploded_fileinfo = new File($filepath);
+                    $fileName = esc($uploded_fileinfo->getBasename());
+
+
+                    $imageData = array(
+                        'image' => $fileName
+                    );
+
+                    if ($model->update($id, $imageData)) {
+                        $data['Flash_message'] = TRUE;
+                        return redirect()->to('/dashboard');
+                    }
+
+                }
+            }
+
+
+        }
+
+        return view('upload_image', $data);
+    }
 
     private function verifyMyPassword($enterpassword, $databasepassword)
     {

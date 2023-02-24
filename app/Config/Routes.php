@@ -32,6 +32,7 @@ $routes->set404Override();
 $routes->match(['get', 'post'], '/', 'Home::index', ['filter' => 'noauth']);
 $routes->match(['get', 'post'], '/signup', 'Home::signup', ['filter' => 'noauth']);
 $routes->match(['get', 'post'], '/edituser/(:any)', 'Home::edituser/$1', ['filter' => 'auth']);
+$routes->match(['get', 'post'], '/upload/(:any)', 'Home::upload/$1', ['filter' => 'auth']);
 $routes->get('/dashboard', 'Home::dashboard', ['filter' => 'auth']);
 $routes->get('/deleteuser/(:any)', 'Home::deleteuser/$1', ['filter' => 'auth']);
 $routes->get('/logout', 'Home::logout');

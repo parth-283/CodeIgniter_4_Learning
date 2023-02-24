@@ -35,9 +35,10 @@
                 <h2>User Data</h2>
             </div>
             <table class="table table-success table-striped">
-                <thead>
+                <thead class="dashboard-table-header">
                     <tr>
                         <th scope="col">No.</th>
+                        <th scope="col">Image</th>
                         <th scope="col">Firstname</th>
                         <th scope="col">Lastname</th>
                         <th scope="col">Phone</th>
@@ -52,7 +53,10 @@
                                 <?php echo $key + 1 ?>
                             </th>
                             <td>
-                                <?php echo $val['firstname'] ?>
+                                <img src="<?php echo $val['image'] ?>" alt="image" />
+                            </td>
+                            <td>
+                                <?php  echo $val['firstname'] ?>
                             </td>
                             <td>
                                 <?php echo $val['lastname'] ?>
@@ -66,7 +70,8 @@
                             <td colspan="2">
                                 <a href="<?php echo base_url() ?>/edituser/<?php echo $val['id'] ?>">Edit</a> | <a
                                     onclick="return confirm('Are you sure want to delete this recored!')"
-                                    href="<?php echo base_url() ?>/deleteuser/<?php echo $val['id'] ?>">Delete</a>
+                                    href="<?php echo base_url() ?>/deleteuser/<?php echo $val['id'] ?>">Delete</a> | <a
+                                    href="<?php echo base_url() ?>/upload/<?php echo $val['id'] ?>">Upload Image</a>
                             </td>
                         </tr>
 
