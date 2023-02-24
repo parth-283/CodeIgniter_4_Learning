@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Models\AdminModel;
 use CodeIgniter\Files\File;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class Home extends BaseController
 {
@@ -186,6 +188,38 @@ class Home extends BaseController
         ];
         session()->set($data);
         return true;
+    }
+
+    public function exportuserdata()
+    {
+        $admin_model = new AdminModel();
+        $fileName = 'employees.xlsx';
+        $spreadsheet = new Spreadsheet();
+        $employees = $admin_model->findAll();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setCellValue('A1', 'Id');
+        $sheet->setCellValue('B1', 'First Name');
+        $sheet->setCellValue('C1', 'Last Name');
+        $sheet->setCellValue('D1', 'Email');
+        $rows = 2;
+        foreach ($employees as $val) {
+            $sheet->setCellValue('A' . $rows, $val['id']);
+            $sheet->setCellValue('B' . $rows, $val['firstname']);
+            $sheet->setCellValue('C' . $rows, $val['lastname']);
+            $sheet->setCellValue('D' . $rows, $val['email']);
+            $rows++;
+        }
+        $writer = new Xlsx($spreadsheet);
+        $writer->save($fileName);
+        header("Content-Type: application/vnd.ms-excel");
+        header('Content-Disposition: attachment; filename="' . basename($fileName) . '"');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        header('Content-Length:' . filesize($fileName));
+        flush();
+        readfile($fileName);
+        exit;
     }
 
     public function logout()

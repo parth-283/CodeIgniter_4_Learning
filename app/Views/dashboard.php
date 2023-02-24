@@ -32,6 +32,9 @@
         <div>
 
             <div>
+                <a href='<?php echo base_url() ?>/exportuserdata'>Export to Excell</a>
+            </div>
+            <div>
                 <h2>User Data</h2>
             </div>
             <table class="table table-success table-striped">
@@ -56,7 +59,7 @@
                                 <img src="<?php echo $val['image'] ?>" alt="image" />
                             </td>
                             <td>
-                                <?php  echo $val['firstname'] ?>
+                                <?php echo $val['firstname'] ?>
                             </td>
                             <td>
                                 <?php echo $val['lastname'] ?>
